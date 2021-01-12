@@ -13,6 +13,12 @@
 * added a bar chart for times that each product has been displayed and each clicked.
 * added a mixed bar with line chart to show the differece between the time each image has been show and has been chosen.
 
+# Lab13:
+* added a local storage.
+* used setItem to store the votes in the local storage.
+* used getItem to render the saved data.
+* used reset bottom to clear the storage.
+
 # Author:
 Boshra Jaber/Mr.Yahya Group
 
