@@ -64,7 +64,7 @@ button {
     text-align: center;
     text-decoration:dotted;
     display: inline-block;
-    font-size: 18px;
+    font-size: 16px;
     border-radius: 12px;
     transition: all 0.5s;
 }
@@ -77,4 +77,8 @@ button:hover {
 }
 .button_banne{
     display:inline;
+ }
+ h2{
+   color:rgb(177, 24, 62);
+   text-transform: capitalize;
  }
