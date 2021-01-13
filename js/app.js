@@ -12,8 +12,12 @@ var clicksLeft = 25;
 
 var productCanvas = document.getElementById('productChart').getContext('2d');
 var productCanvas2 = document.getElementById('productChart2').getContext('2d');
-
+//variables for the buttons
 var clearDataBtn = document.getElementById('clearLocalStorage');
+var resultBtn = document.getElementById('result_button');
+var displaychart = document.getElementById('show_Chart');
+var displaychart2 = document.getElementById('show_Chart2');
+
 
 var shownImages = []; // this array will be responsible  for keeping track of the shown img at the current loop
 
@@ -24,34 +28,7 @@ function Product(name) {
     this.timesShown = 0;
     this.timesClicked = 0;
     arrayOfProduct.push(this);
-
 }
-//functions regarding storing the data
-function storeData() {
-
-    localStorage.setItem('buttom_section', JSON.stringify(arrayOfProduct));
-    console.log(localStorage);
-}
-function clearLocalStorage() {
-
-    localStorage.clear();
-
-    // arrayOfProduct = [];
-
-
-}
-
-function checkAndRestore() {
-
-    if (localStorage.length > 0) { // check if the local storage has any values in it
-        arrayOfProduct = JSON.parse(localStorage.getItem('buttom_section')); // restore the data from the local storage
-
-    }
-}
-
-clearDataBtn.addEventListener('click', clearLocalStorage);
-
-
 
 // creating the objects
 function generateObjects() {
@@ -60,20 +37,37 @@ function generateObjects() {
     }
 }
 generateObjects();
+
+//functions regarding storing the data
+function storeData() {
+    localStorage.setItem('buttom_section', JSON.stringify(arrayOfProduct));
+    //console.log(localStorage);
+}
+function clearLocalStorage() {
+    localStorage.clear();
+}
+function checkAndRestore() {
+    if (localStorage.length > 0) { // check if the local storage has any values in it
+        arrayOfProduct = JSON.parse(localStorage.getItem('buttom_section')); // restore the data from the local storage
+    }
+}
+
+// adding a listener to reset the storage.
+clearDataBtn.addEventListener('click', clearLocalStorage);
 checkAndRestore();
 
 // Functions
 //function that ensure the images currently displayed are not the same as the next images to be displayed
 function checkAvailability(selectProductName) {
+    console.log('check avaiablitiy call');
     for (let index = 0; index < shownImages.length; index++) {
-
-        if (shownImages[index].name === selectProductName) {
+        if (shownImages[index].productName === selectProductName) {
             return true; // because I want it to keep generating images as long as the previous one = the current one
         }
-
     }
     return false; // so it breaks out the do-while loop because they are not the same.
 }
+
 //function for choosing 3 random images
 function pickImage() {
     do {
@@ -86,7 +80,6 @@ function pickImage() {
         var centerImg = Math.round(Math.random() * (arrayOfProduct.length - 1));
         var centerImageName = arrayOfProduct[centerImg].productName;
     } while (leftImg === centerImg || checkAvailability(centerImageName));
-
 
     do {
         var rightImg = Math.round(Math.random() * (arrayOfProduct.length - 1));
@@ -116,7 +109,6 @@ function renderImg(leftImg, centerImg, rightImg) {
     arrayOfProduct[centerImg].timesShown++;
     arrayOfProduct[rightImg].timesShown++;
     storeData();
-
 }
 console.log(arrayOfProduct);
 //Calling Funcrions
@@ -124,7 +116,7 @@ pickImage();
 
 
 
-//adding a listner
+//adding a listner to show result
 var sectionId = document.getElementById('all_products');
 sectionId.addEventListener('click', countClicks);
 
@@ -137,9 +129,8 @@ function countClicks(event) {
             checkProduct(objectIndicator);
             pickImage();
         }
-        else {
-            sectionId.removeEventListener('click', countClicks);
-        }
+    } else {
+        sectionId.removeEventListener('click', countClicks);
     }
 }
 
@@ -152,28 +143,19 @@ function checkProduct(objectIndicator) {
             clicksLeft--;
             storeData();
         }
-
     }
 
-    //console.log("You have " + clicksLeft + " Clicks left");
+    console.log("You have " + clicksLeft + " Clicks left");
     if (clicksLeft === 0) {
-        renderChart();
-        renderChart2();
+        //renderChart();
+        //renderChart2();
         createButton();
     }
 }
 
-// function for result report:
-function createButton() {
+// add a listner to show result botton
 
-    var button = document.createElement("button")
-    button.innerHTML = "Result";
-    var body = document.getElementsByTagName("body")[0];
-    body.appendChild(button);
-    button.addEventListener("click", addResultList)
-
-
-}
+resultBtn.addEventListener("click", addResultList)
 
 //function for adding the list:
 function addResultList() {
@@ -186,19 +168,19 @@ function addResultList() {
         ul.appendChild(list);
     }
 }
+// adding a listner to the show chart button
+displaychart.addEventListener("click", renderChart)
+displaychart2.addEventListener("click", renderChart2)
 
 function renderChart() {
-
     var arrayOfImagesNames = [];
     var arrayOfImagesClicked = [];
     var arrayOfImagesShown = [];
-
 
     for (var index = 0; index < arrayOfProduct.length; index++) {
         arrayOfImagesNames.push(arrayOfProduct[index].productName);
         arrayOfImagesClicked.push(arrayOfProduct[index].timesClicked);
         arrayOfImagesShown.push(arrayOfProduct[index].timesShown);
-
     }
 
     var myChart = new Chart(productCanvas, {
@@ -328,15 +310,11 @@ function renderChart2() {
     var arrayOfImagesClicked = [];
     var arrayOfImagesShown = [];
 
-
     for (var index = 0; index < arrayOfProduct.length; index++) {
         arrayOfImagesNames.push(arrayOfProduct[index].productName);
         arrayOfImagesClicked.push(arrayOfProduct[index].timesClicked);
         arrayOfImagesShown.push(arrayOfProduct[index].timesShown);
-
     }
-
-
 
     var mixedChart = new Chart(productCanvas2, {
         type: 'bar',

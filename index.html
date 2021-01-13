@@ -11,7 +11,6 @@
 <body>
     <header></header>
     <main>
-
         <section id="all_products">
             <h1>Please choose your favorite one of these images</h1>
 
@@ -33,26 +32,24 @@
 
                 <h2 id="right_product_h2"></h2>
             </div>
-            <section id="timesleft">
-
-            </section>
         </section>
+        <div id="button_banner">
+            <button id="clearLocalStorage">Reset Data</button>
+            <button id="show_Chart">Show bar Chart</button>
+            <button id="show_Chart2">Show line-bar Chart</button>
+            <button id="result_button">Show Result</button>
+            <button onClick="window.location.reload();">Refresh Page to choose again</button>
+        </div>
         <section id="buttom_section">
-
         </section>
         <section>
-            <button id="clearLocalStorage">Reset Data</button>
-            <section>
-                <canvas id="productChart" width="500" height="600"></canvas>
-            </section>
-            <section>
-                <canvas id="productChart2" width="500" height="600"></canvas>
-            </section>
-
+            <canvas id="productChart" width="500" height="600"></canvas>
+        </section>
+        <section>
+            <canvas id="productChart2" width="500" height="600"></canvas>
+        </section>
     </main>
-
     <footer>
-
     </footer>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js"></script>
     <script src="js/app.js"></script>
